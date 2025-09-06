@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en" id="top">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A private network for marketplace founders & operators</title>
+  <meta name="description" content="A curated, invite-only network for founders and senior operators of online marketplaces." />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:opsz@9..40&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#FAF9F6;            /* background */
+      --text:#242424;          /* global text color */
+      --rule:rgba(36,36,36,.08);
+      --base:14.5px;           /* body size */
+      --lh:1.58;               /* body line-height */
+      --colw:60ch;             /* column width (PG-style) */
+      --left:18px;             /* left gutter */
+      --section-gap:34px;      /* space between sections */
+      --repeat-gap:55vh;       /* gap between repeated blocks */
+      --btn-fs:12px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "DM Serif Text", Georgia, Cambria, "Times New Roman", Times, serif;
+      font-size: var(--base);
+      line-height: var(--lh);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      /* Disable automatic optical sizing so we can manually lighten small text */
+      font-optical-sizing: none;
+      /* A neutral default optical size for the page */
+      font-variation-settings: "opsz" 22;
+    }
+
+    /* Left-pinned narrow column */
+    header { padding: 16px 10px 0 var(--left); }
+    .brand { font-size: 12px; opacity: .85; user-select: none; color: var(--text); }
+
+    main { padding: 0 12px 40vh var(--left); }
+
+    article {
+      max-width: var(--colw);
+      margin: 0 0 var(--repeat-gap) 0; /* large visual gap between repeats */
+    }
+
+    /* Uniform, not-bold typography; headings keep presence, body text visually lighter */
+    h1, h2, h3, h4, p, li, small, strong, em { color: var(--text); font-weight: 400; }
+    h1 { font-size: 24px; margin: 0 0 .85em 0; font-variation-settings: "opsz" 18; }
+    h2 { font-size: 17px; margin: var(--section-gap) 0 .6em 0; font-variation-settings: "opsz" 20; }
+    /* Make smaller text visually less bold by using a higher optical size value */
+    p, li, small { margin: 0 0 1.05em 0; font-variation-settings: "opsz" 30; }
+    ul { margin: .2em 0 1.2em 1.1em; padding: 0; }
+    li { margin: .45em 0; }
+
+    a { color: inherit; text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+    /* Small black button under the lede */
+    .btn { display: inline-block; background: var(--text); color: #fff; border: 1px solid var(--text); padding: 8px 11px; font-size: var(--btn-fs); line-height: 1; border-radius: 3px; text-decoration: none; margin: .75em 0 0 0; }
+    .btn:hover { filter: brightness(.92); }
+
+    .rule { height: 1px; background: var(--rule); margin: var(--section-gap) 0; }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    @media (min-width: 900px){ :root{ --left:22px; --base:14.25px; } }
+    @media (max-width: 420px){ :root{ --left:12px; --base:13.6px; --colw:54ch; } }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#content">Skip to content</a>
+  <header><div class="brand">Metcalfe</div></header>
+  <main id="content" aria-live="polite">
+    <div id="sentinel" aria-hidden="true"></div>
+  </main>
+
+  <template id="tpl">
+    <article role="article" aria-label="Overview">
+      <h1>A private network for marketplace founders &amp; operators</h1>
+      <p>Metcalfe is a curated, invite-only network for founders and senior operators of online marketplaces. A space to connect, exchange hard-won lessons, and support each other — under Chatham House Rules.</p>
+      <a class="btn" href="https://forms.gle/xLeAdwvoieyGgB5u9" target="_blank" rel="noopener">Request an invite</a>
+
+      <h2>What is Metcalfe about?</h2>
+      <p>Operator-first conversations. Get honest input from people who've scaled marketplaces — what actually worked, what didn’t, and what they'd do differently.</p>
+      <p>Trusted recommendations. Whether you're hiring, raising, or picking a tool, get intros and referrals from peers who've been there.</p>
+      <p>High signal, low noise. Carefully curated members, thoughtful discussions, and no performative posting — just meaningful exchanges.</p>
+
+      <h2>Who it’s for</h2>
+      <p>Role: you are an operator or senior leader at an online marketplace.</p>
+      <p>Business model: your company is an online marketplace or platform business (B2B, B2C, or P2P) with network effects at its core.</p>
+      <p>Reputation: you’re known as thoughtful, driven, and collaborative. You share knowledge generously and value integrity.</p>
+
+      <h2>Membership principles</h2>
+      <p>You respect the Chatham House Rule, value privacy, and are here to contribute - not to pitch or sell.</p>
+    </article>
+  </template>
+
+  <script>
+    (function(){
+      const content = document.getElementById('content');
+      const tpl = document.getElementById('tpl');
+      const sentinel = document.getElementById('sentinel');
+
+      function addBlock(){
+        const node = tpl.content.firstElementChild.cloneNode(true);
+        content.insertBefore(node, sentinel);
+      }
+
+      // Seed the first block
+      addBlock();
+
+      // Infinite scroll: append when nearing bottom
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            // Add 1 new block each time sentinel is visible
+            addBlock();
+          }
+        });
+      }, { rootMargin: '200px 0px 200px 0px' });
+      io.observe(sentinel);
+    })();
+  </script>
+</body>
+</html>
